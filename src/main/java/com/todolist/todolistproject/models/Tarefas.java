@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 
 @Entity
@@ -18,6 +19,7 @@ public class Tarefas {
 
     
     @NotNull(message = "Título não pode ser nulo")
+    @Size(min = 2, max = 30, message = "Título precisa ter entre 2 a 30 caracteres")
     private String titulo;
     @NotNull(message = "Descrição não pode ser nula")
     private String descricao;

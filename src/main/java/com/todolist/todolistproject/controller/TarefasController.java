@@ -31,9 +31,8 @@ public class TarefasController {
 
     @GetMapping("/{id}") //GET por id
     public ResponseEntity<Tarefas> listarTarefaPorId(@PathVariable Long id){
-        return tarefasService.listarPorId(id)
-            .map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
+        Tarefas tarefa = tarefasService.listarPorId(id);
+        return ResponseEntity.ok(tarefa);
     }
 
     @PostMapping //POST
@@ -44,9 +43,10 @@ public class TarefasController {
     @DeleteMapping("/{id}") //DELETE
     public void deletarTarefaPorId(@PathVariable Long id){
         tarefasService.deletarTarefa(id);
+
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}") //PUT
     public ResponseEntity<Tarefas> atualizarTarefa(@PathVariable Long id, @RequestBody Tarefas tarefaAtualizada){
         return tarefasService.atualizarTarefa(id, tarefaAtualizada)
             .map(ResponseEntity::ok)

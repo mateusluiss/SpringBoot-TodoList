@@ -3,8 +3,10 @@ package com.todolist.todolistproject.service;
 import java.util.List;
 import java.util.Optional;
 
+
 import org.springframework.stereotype.Service;
 
+import com.todolist.todolistproject.exceptions.TarefaNotFoundException;
 import com.todolist.todolistproject.models.Tarefas;
 import com.todolist.todolistproject.repository.TarefasRepository;
 
@@ -20,8 +22,9 @@ public class TarefasService {
         return tarefasRepository.findAll();
     }
 
-    public Optional<Tarefas> listarPorId(Long id){
-        return tarefasRepository.findById(id);
+    public Tarefas listarPorId(Long id){
+        return tarefasRepository.findById(id)
+            .orElseThrow(() -> new TarefaNotFoundException("Tarefa com ID "+id+" não foi encontrada."));
     }
 
     public Tarefas adicionarTarefa(Tarefas tarefa){
@@ -29,6 +32,9 @@ public class TarefasService {
     }
 
     public void deletarTarefa(Long id){
+        tarefasRepository.findById(id)
+            .orElseThrow(() -> new TarefaNotFoundException("Tarefa com ID "+id+" não foi encontrada"));
+        
         tarefasRepository.deleteById(id);
     }
 
@@ -40,5 +46,8 @@ public class TarefasService {
                 tarefa.setConcluida(tarefaAtualizada.getConcluida());
                 return tarefasRepository.save(tarefa);
             });
+
+        
+
     }
 }
