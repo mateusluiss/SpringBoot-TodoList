@@ -2,6 +2,7 @@ package com.todolist.todolistproject.controller;
 
 import java.util.List;
 
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,9 +31,8 @@ public class TarefasController {
     }
 
     @GetMapping("/{id}") //GET por id
-    public ResponseEntity<Tarefas> listarTarefaPorId(@PathVariable Long id){
-        Tarefas tarefa = tarefasService.listarPorId(id);
-        return ResponseEntity.ok(tarefa);
+    public Tarefas listarTarefaPorId(@PathVariable Long id){
+        return tarefasService.listarPorId(id);
     }
 
     @PostMapping //POST
@@ -48,9 +48,8 @@ public class TarefasController {
 
     @PutMapping("/{id}") //PUT
     public ResponseEntity<Tarefas> atualizarTarefa(@PathVariable Long id, @RequestBody Tarefas tarefaAtualizada){
-        return tarefasService.atualizarTarefa(id, tarefaAtualizada)
-            .map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
+        Tarefas tarefa = tarefasService.atualizarTarefa(id, tarefaAtualizada);
+        return ResponseEntity.ok(tarefa);
     }
 
 

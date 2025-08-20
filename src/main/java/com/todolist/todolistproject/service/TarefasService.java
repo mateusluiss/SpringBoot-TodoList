@@ -1,7 +1,6 @@
 package com.todolist.todolistproject.service;
 
 import java.util.List;
-import java.util.Optional;
 
 
 import org.springframework.stereotype.Service;
@@ -33,19 +32,20 @@ public class TarefasService {
 
     public void deletarTarefa(Long id){
         tarefasRepository.findById(id)
-            .orElseThrow(() -> new TarefaNotFoundException("Tarefa com ID "+id+" não foi encontrada"));
+            .orElseThrow(() -> new TarefaNotFoundException("Tarefa com ID "+id+" não foi encontrada."));
         
         tarefasRepository.deleteById(id);
     }
 
-    public Optional<Tarefas> atualizarTarefa(Long id, Tarefas tarefaAtualizada){
+    public Tarefas atualizarTarefa(Long id, Tarefas tarefaAtualizada){
         return tarefasRepository.findById(id)
             .map(tarefa -> {
                 tarefa.setTitulo(tarefaAtualizada.getTitulo());
                 tarefa.setDescricao(tarefaAtualizada.getDescricao());
                 tarefa.setConcluida(tarefaAtualizada.getConcluida());
                 return tarefasRepository.save(tarefa);
-            });
+            })
+            .orElseThrow(() -> new TarefaNotFoundException("Tarefa com ID "+id+" não foi encontrada."));
 
         
 
